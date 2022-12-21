@@ -1,0 +1,17 @@
+﻿  LAB CM3.cpp
+C:\Users\ermol\Desktop\3 курс 1 сем\ЧМ\3 лаба\LAB CM3\LAB CM3.cpp(38,49): warning C4244: 'argument': conversion from 'double' to 'const unsigned int', possible loss of data
+C:\Users\ermol\Desktop\3 курс 1 сем\ЧМ\3 лаба\LAB CM3\LAB CM3.cpp(52,16): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Users\ermol\Desktop\3 курс 1 сем\ЧМ\3 лаба\LAB CM3\LAB CM3.cpp(323,43): warning C4244: 'argument': conversion from 'double' to 'const unsigned int', possible loss of data
+C:\Users\ermol\Desktop\3 курс 1 сем\ЧМ\3 лаба\LAB CM3\LAB CM3.cpp(329,28): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+C:\Users\ermol\Desktop\3 курс 1 сем\ЧМ\3 лаба\LAB CM3\LAB CM3.cpp(329,25): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+C:\Users\ermol\Desktop\3 курс 1 сем\ЧМ\3 лаба\LAB CM3\LAB CM3.cpp(336,44): warning C4244: 'argument': conversion from 'double' to 'const unsigned int', possible loss of data
+C:\Users\ermol\Desktop\3 курс 1 сем\ЧМ\3 лаба\LAB CM3\LAB CM3.cpp(344,29): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+C:\Users\ermol\Desktop\3 курс 1 сем\ЧМ\3 лаба\LAB CM3\LAB CM3.cpp(344,26): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+C:\Users\ermol\Desktop\3 курс 1 сем\ЧМ\3 лаба\LAB CM3\LAB CM3.cpp(353,24): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+C:\Users\ermol\Desktop\3 курс 1 сем\ЧМ\3 лаба\LAB CM3\LAB CM3.cpp(353,21): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+C:\Users\ermol\Desktop\3 курс 1 сем\ЧМ\3 лаба\LAB CM3\LAB CM3.cpp(364,41): warning C4244: 'argument': conversion from 'double' to 'const unsigned int', possible loss of data
+C:\Users\ermol\Desktop\3 курс 1 сем\ЧМ\3 лаба\LAB CM3\LAB CM3.cpp(370,25): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+C:\Users\ermol\Desktop\3 курс 1 сем\ЧМ\3 лаба\LAB CM3\LAB CM3.cpp(370,22): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+C:\Users\ermol\Desktop\3 курс 1 сем\ЧМ\3 лаба\LAB CM3\LAB CM3.cpp(393,33): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+C:\Users\ermol\Desktop\3 курс 1 сем\ЧМ\3 лаба\LAB CM3\LAB CM3.cpp(393,30): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+  LAB CM3.vcxproj -> C:\Users\ermol\Desktop\3 курс 1 сем\ЧМ\3 лаба\LAB CM3\Debug\LAB CM3.exe
