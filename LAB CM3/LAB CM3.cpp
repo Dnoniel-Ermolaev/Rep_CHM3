@@ -7,8 +7,21 @@
 #include <typeinfo>
 #include <cmath>
 
-double equation(double x, double y) { return (x * x * x + y * y * y + 2); }
-double deltaU(double x, double y) { return -6 * x - 6 * y; }
+double equation(double x, double y) { return ((x * x * x) + (y * y * y) + 3.0); }
+double deltaU(double x, double y) { return -6.0 * x - 6.0 * y; }
+
+double GU1(double x, double y,double a) {
+    return(y * y * y + a*a*a+ 3.0);
+}
+double GU2(double x, double y,double b) {
+    return(y * y * y + b * b * b + 3.0);
+}
+double GU3(double x, double y,double c) {
+    return(x * x * x +c*c*c + 3.0);
+}
+double GU4(double x, double y,double d) {
+    return (x * x * x +d*d*d+ 3.0);
+}
 
 std::vector<double> startValueX(double m, double a, double b) {
     double h = (b - a) / m;
@@ -71,7 +84,7 @@ std::vector<std::vector<double> > TrueSolution(std::vector<std::vector<double> >
     double c, double d) {
     double h = (b - a) / n;
     double k = (d - c) / m;
-    for (int j = m; j >= 0; j--) {
+    for (int j = 0; j <= m; j++) {
         for (int i = 0; i <= n; i++) {
             double xi = a + i * h;
             double yi = c + j * k;
@@ -87,7 +100,8 @@ std::vector<std::vector<double> > rightPart(std::vector<std::vector<double> > F,
     double k = (d - c) / m;
     double h2 = ((n / (b - a)) * (n / (b - a)));
     double k2 = ((m / (d - c)) * (m / (d - c)));
-    double a2 = -2 * (h2 + k2);
+
+    double a2 = -2.0 * (h2 + k2);
 
     for (int j = 1; j < m; j++) {
         for (int i = 1; i < n; i++) {
@@ -95,16 +109,19 @@ std::vector<std::vector<double> > rightPart(std::vector<std::vector<double> > F,
             xi = a + i * h;
             yi = c + j * k;
             if (j == 1)
-                sum += equation(xi, yi)*(1/(k * k));
-            else if (j == m - 1)
-                sum += equation(xi, yi)*(1/(k * k));
+                sum += (1.0 / (k * k)) * GU3(xi, yi,c);
+            else
+                if (j == m - 1)
+                    sum += (1.0 / (k * k)) * GU4(xi, yi,d);
             if (i == 1)
-                sum += equation(xi, yi)*(1/(h * h));
-            else if (i == n - 1)
-                sum += equation(xi, yi)*(1/(h * h));
+                sum += (1.0 / (h * h)) * GU1(xi, yi,a);
+            else
+                if (i == n - 1)
+                    sum += (1.0 / (h * h)) * GU2(xi, yi,b);
             F[i][j] = -deltaU(xi, yi) - sum;
         }
     }
+
     for (int j = 1; j < m; j++) {
         for (int i = 1; i < n; i++) {
             std::cout << std::setw(6) << "F[" << i << "][" << j << "]" << F[i][j]
@@ -118,7 +135,7 @@ std::vector<std::vector<double> > firstApproc(
     double c, double d) {
     double h = (b - a) / n;
     double k = (d - c) / m;
-    for (int j = m; j >= 0; j--) {
+    for (int j = 0; j <= m; j++) {
         for (int i = 0; i <= n; i++) {
             double xi = a + i * h;
             double yi = c + j * k;
@@ -138,7 +155,7 @@ double discrepancyCRACK(std::vector<std::vector<double> > M, int n, int m,
     double k = (d - c) / m;
     double h2 = ((n / (b - a)) * (n / (b - a)));
     double k2 = ((m / (d - c)) * (m / (d - c)));
-    double a2 = -2 * (h2 + k2);
+    double a2 = -2.0 * (h2 + k2);
 
     std::vector<std::vector<double> > F(n);
     for (int i = 0; i < n; i++) {
@@ -201,53 +218,40 @@ double discrepancyCRACK(std::vector<std::vector<double> > M, int n, int m,
 std::vector<std::vector<double> > Zeidal(std::vector<std::vector<double> > M,
     int n, int m, double a, double b,
     double c, double d, double eps,
-    int nMax, double& epsMax, int& iter,
-    double& disp) {
+    int nMax, double& epsMax, int& iter) {
     double curEps = 0;
-    double h = (b - a) / n;
-    double k = (d - c) / m;
-    double h2 = -((n / (b - a)) * (n / (b - a)));
-    double k2 = -((m / (d - c)) * (m / (d - c)));
-    double a2 = -2 * (h2 + k2);
+    double h = (b - a) / (double)n;
+    double k = (d - c) / (double)m;
+    double h2 = -(((double)n / (b - a)) * ((double)n / (b - a)));
+    double k2 = -(((double)m / (d - c)) * ((double)m / (d - c)));
+    double a2 = -2.0 * (h2 + k2);
 
     std::vector<double> xi = startValueX(n, a, b);
-    std::vector<double> yi = startValueY(n, c, d);
+    std::vector<double> yi = startValueY(m, c, d);
     double vOld, vCurr;
     double R = 0;
     iter = 0;
+    for (int Nn = 0; Nn < nMax; ++Nn) {
+            epsMax = 0.0;
+            for (int j = 1; j < m; j++) {
+                for (int i = 1; i < n; i++) {
+                    vOld = M[i][j];
 
-    while (true) {
-        epsMax = 0.0;
-        for (int j = 1; j < m; j++) {
-            for (int i = 1; i < n; i++) {
-                vOld = M[i][j];
+                    vCurr = -(h2 * (M[i + 1][j] + M[i - 1][j]) + k2 * (M[i][j + 1] + M[i][j - 1]));
+                    vCurr = vCurr + deltaU(xi[i], yi[i]);
+                    vCurr = vCurr / a2;
 
-                vCurr = -(h2 * (M[i + 1][j] + M[i - 1][j]) +
-                    k2 * (M[i][j + 1] + M[i][j - 1]));
-                vCurr = vCurr + deltaU(xi[i], yi[i]);
-                vCurr = vCurr / a2;
+                    curEps = std::max(epsMax, abs(vOld - vCurr));
+                    epsMax = curEps;
+                    //std::cout << "\nEPS for[ " << iter << "]=" << curEps << std::endl;
 
-                R += ((h2 * (M[i + 1][j] + M[i - 1][j]) +
-                    k2 * (M[i][j + 1] + M[i][j - 1])) +
-                    a2 * vCurr - deltaU(xi[i], yi[i])) *
-                    ((h2 * (M[i + 1][j] + M[i - 1][j]) +
-                        k2 * (M[i][j + 1] + M[i][j - 1])) +
-                        a2 * vCurr - deltaU(xi[i], yi[i]));
-                curEps = fabs(vOld - vCurr);
-                if (curEps > epsMax) epsMax = curEps;
-                // std::cout << "\nEPS for[ " << iter << "]=" << curEps<< std::endl;
-
-                M[i][j] = vCurr;
+                    M[i][j] = vCurr;
+                    //print1(M, n, m);
+                }
             }
-        }
-
-        iter++;
-
-        if ((epsMax <= eps) || (iter > nMax)) break;
+            iter++;
+            if ((epsMax < eps)) break;
     }
-
-    disp = sqrt(R);
-
     return M;
 }
 
@@ -267,7 +271,7 @@ double EpsSLAU(std::vector<std::vector<double> > M, int n, int m, double a,
 
     for (int j = 1; j < m; j++) {
         for (int i = 1; i < n; i++) {
-            double z = fabs(M1[i][j] - M[i][j]);
+            double z = abs(M1[i][j] - M[i][j]);
             if (z > zs) zs = z;
             //std::cout << "Z=" << z << "\n";
         }
@@ -286,7 +290,7 @@ int main() {
     double n = 4;
     double m = 4;
     // std::vector<std::vector<double> > M;  // Искомый вектор
-    double a = 0, b = 1.0, c = 0, d = 0.2;  // гранциы
+    double a = 0, b = 1.0, c = 0, d = 0.02;  // гранциы
     double disp = 0;
     int FLAG;
     int FLAG2;
@@ -350,7 +354,7 @@ int main() {
     }
     std::cout << std::endl << std::endl;
     std::cout << "Применение метода Зейдаля: " << std::endl;
-    FA = Zeidal(FA, n, m, a, b, c, d, eps, N_max, epsMax, iter, disp);
+    FA = Zeidal(FA, n, m, a, b, c, d, eps, N_max, epsMax, iter);
     std::cout << std::endl;
     std::cout << "Последняя итерация метода при заданной точности: (eps = " << eps
         << " )" << std::endl;
@@ -388,7 +392,7 @@ int main() {
     std::cout << "Полученные результаты: " << std::endl;
     std::cout << "Число затраченных шагов: " << iter << std::endl;
     std::cout << "Точность на выходе: " << epsMax << std::endl;
-    //disp = discrepancyCRACK(FA, n, m, a, b, c, d);
+    disp = discrepancyCRACK(FA, n, m, a, b, c, d);
     std::cout << "Невязка на выходе (евкл.): " << disp << std::endl;
     double err = EpsSLAU(FA, n, m, a, b, c, d);
     std::cout << "Погрешность решения СЛАУ: " << err << std::endl;
